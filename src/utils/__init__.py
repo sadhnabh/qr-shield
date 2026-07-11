@@ -1,0 +1,2 @@
+"""Shared QR-Shield utilities."""
+

@@ -1,0 +1,2 @@
+"""QR-Shield test suite."""
+

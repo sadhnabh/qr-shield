@@ -1,0 +1,4 @@
+timestamp_utc,module,activity,parameters,notes
+2026-07-03T15:43:01.939669+00:00,genuine_qr,generated synthetic batch,"count=3; seed=42","Run details recorded in data/manifest.csv; tests passed"
+2026-07-03T15:46:18.607461+00:00,tampered_qr,generated synthetic overlay batch,"count=4; seed=84; difficulties=clean|obvious","Run details recorded in data/manifest.csv; visually checked; 7 total tests passed"
+2026-07-03T15:56:19.4032072Z,ela,quality-90 diagnostic comparison,"genuine=0.003545; clean_overlay=0.003775; obvious_overlay=0.005143","Three samples only; not classifier metrics; heatmaps visually checked; 11 total tests passed"
