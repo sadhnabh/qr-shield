@@ -1,61 +1,227 @@
 # QR-Shield
 
-QR-Shield is a synthetic-data research project for detecting QR-code sticker
-overlays. It combines image-forensics signals with independent payee-identity
-verification.
+QR-Shield is a synthetic-data research project for detecting QR-code sticker overlay attacks using image forensics and content verification.
 
-The project never uses real payment identities or downloaded QR datasets. All
-sample identities and images are generated locally from fictional placeholders.
+The project combines multiple forensic techniques with QR payload verification to distinguish between genuine and tampered QR codes.
 
-## Day 1: generate genuine QR images
+> **Note:** This project never uses real payment identities or downloaded QR datasets. All QR codes, identities, and images are generated locally using fictional placeholder data.
 
-Create and activate a Python 3.11 virtual environment, then install the current
-development dependencies:
+---
+
+## Features
+
+- Generate synthetic genuine QR codes
+- Generate synthetic tampered QR codes with sticker overlays
+- Error Level Analysis (ELA)
+- Frequency-domain feature extraction (FFT/DCT)
+- Finder pattern geometry validation
+- QR content verification
+- Multi-layer fusion engine
+- Flask-based web interface
+- Deployed on Render for online testing
+
+---
+
+## Live Demo
+
+**Render Deployment**
+
+https://qr-shield-e8s2.onrender.com
+
+---
+
+## Project Structure
+
+```
+qr-shield/
+│
+├── app/                 # Flask application
+├── frontend/            # Frontend assets
+├── src/                 # Core detection pipeline
+├── tests/               # Unit tests
+├── docs/                # Documentation
+├── sample_qr/           # Sample QR codes for testing
+├── uploads/             # Uploaded files
+├── requirements.txt
+└── README.md
+```
+
+---
+
+## Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/sadhnabh/qr-shield.git
+cd qr-shield
+```
+
+Create a virtual environment:
 
 ```powershell
 python -m venv .venv
 .venv\Scripts\Activate.ps1
+```
+
+Install dependencies:
+
+```powershell
 python -m pip install -r requirements.txt
 ```
 
-Generate ten reproducible samples:
+---
+
+## Generate Genuine QR Codes
 
 ```powershell
 python -m src.data_generation.generate_qr --count 10 --seed 42
 ```
 
-Generate a balanced clean/obvious tampered-overlay batch:
+Generated images are stored in:
+
+```
+data/genuine/
+```
+
+---
+
+## Generate Tampered QR Codes
 
 ```powershell
 python -m src.data_generation.generate_tampered --count 10 --seed 84
 ```
 
-Images are written to `data/genuine/` or `data/tampered/`. Each invocation
-appends one run record to `data/manifest.csv`, including the count, seed, sampled
-augmentation settings, and synthetic identities.
+Generated images are stored in:
 
-Run the tests with:
+```
+data/tampered/
+```
+
+Each generation appends metadata to:
+
+```
+data/manifest.csv
+```
+
+including:
+
+- generation seed
+- augmentation settings
+- synthetic identities
+- timestamp
+
+---
+
+## Run Tests
 
 ```powershell
 python -m pytest
 ```
 
-Generate ELA heatmaps for existing synthetic samples:
+---
+
+## Image Forensics
+
+### Error Level Analysis
 
 ```powershell
 python -m src.layer1_forensics.ela data/genuine/example.png data/tampered/example.png
 ```
 
-ELA outputs are saved under `results/ela/`; existing heatmaps are not replaced.
+Outputs are saved to:
 
-Print FFT/DCT and QR-boundary features:
+```
+results/ela/
+```
+
+---
+
+### Frequency Features
 
 ```powershell
 python -m src.layer1_forensics.freq_features data/genuine/example.png
 ```
 
-Print finder-geometry features and save annotated validation images:
+---
+
+### Finder Pattern Validation
 
 ```powershell
 python -m src.layer1_forensics.finder_pattern data/genuine/example.png
 ```
+
+Annotated validation images are saved automatically.
+
+---
+
+## Running the Web Application
+
+Start the Flask server:
+
+```powershell
+python app/app.py
+```
+
+Open your browser:
+
+```
+http://127.0.0.1:5000
+```
+
+Upload a QR image and the application will classify it as:
+
+- Genuine
+- Tampered
+
+along with the forensic analysis results.
+
+---
+
+## Sample QR Codes
+
+Sample QR codes are provided in the `sample_qr/` folder.
+
+Use these files to test the application without generating your own dataset.
+
+Example files:
+
+```
+sample_qr/
+├── genuine_1.png
+├── genuine_2.png
+├── tampered_1.png
+└── tampered_2.png
+```
+
+---
+
+## Technologies Used
+
+- Python 3.11
+- Flask
+- OpenCV
+- NumPy
+- Pillow
+- Pyzbar
+- qrcode
+- Gunicorn
+- PyTest
+
+---
+
+## Future Improvements
+
+- Deep learning-based classification
+- Heatmap visualization
+- Confidence scoring
+- Batch QR verification
+- REST API support
+
+---
+
+## Author
+
+**Sadhna**
+
+Internship Project – QR-Shield
